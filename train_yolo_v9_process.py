@@ -57,7 +57,7 @@ class TrainYoloV9Param(TaskParam):
         self.cfg["dataset_folder"] = dataset_folder
         self.cfg["model_name"] = "yolov9-c"
         self.cfg["model_weight_file"] = ""
-        self.cfg["epochs"] = 1
+        self.cfg["epochs"] = 50
         self.cfg["batch_size"] = 8
         self.cfg["train_imgsz"] = 640
         self.cfg["test_imgsz"] = 640
@@ -92,7 +92,7 @@ class TrainYoloV9(dnntrain.TrainProcess):
             self.set_param_object(TrainYoloV9Param())
         else:
             self.set_param_object(copy.deepcopy(param))
-        
+
         self.enable_mlflow(True)
         self.enable_tensorboard(True)
         self.device = None
@@ -111,7 +111,7 @@ class TrainYoloV9(dnntrain.TrainProcess):
         print("Preparing dataset...")
         dataset_yaml = prepare_dataset(dataset_input, param.cfg["dataset_folder"],
                                        param.cfg["dataset_split_ratio"])
-            
+  
         print("Collecting configuration parameters...")
         self.opt = self.load_config(dataset_yaml)
 
@@ -121,7 +121,7 @@ class TrainYoloV9(dnntrain.TrainProcess):
         print("Start training...")
         self.start_training()
 
-        # Copy Past dataset class info for inference 
+        # Copy Past dataset class info for inference
         source_file_path = dataset_yaml
         destination_file_path = os.path.join(self.opt.save_dir, 'classes.yaml')
         shutil.copyfile(source_file_path, destination_file_path)
@@ -398,3 +398,9 @@ class TrainYoloV9Factory(dataprocess.CTaskFactory):
     def create(self, param=None):
         # Create algorithm object
         return TrainYoloV9(self.info.name, param)
+
+
+if __name__ == '__main__':
+    param = TrainYoloV9Param()
+    train_yolo_v9_process = TrainYoloV9("train_yolo_v9", param)
+    train_yolo_v9_process.run()

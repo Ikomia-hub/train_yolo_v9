@@ -75,8 +75,8 @@ Ikomia Studio offers a friendly UI with the same features as the API.
     - yolov9-e
 - **train_imgsz** (int) - default '640': Size of the training image.
 - **test_imgsz** (int) - default '640': Size of the eval image.
-- **epochs** (int) - default '10': Number of complete passes through the training dataset.
-- **batch_size** (int) - default '16': Number of samples processed before the model is updated.
+- **epochs** (int) - default '50': Number of complete passes through the training dataset.
+- **batch_size** (int) - default '8': Number of samples processed before the model is updated.
 - **dataset_split_ratio** (float) – default '0.9': Divide the dataset into train and evaluation sets ]0, 1[.
 - **output_folder** (str, *optional*): Path to where the model will be saved. 
 - **config_file** (str, *optional*): Path to hyperparameters configuration file .yaml. 
