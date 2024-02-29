@@ -1,8 +1,8 @@
 .idea/
 __pycache__
-models
 dataset
 runs
 yolov9/__pycache__
 yolov9/models/__pycache__
 yolov9/utils/__pycache__
+*.pt
