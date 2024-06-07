@@ -65,8 +65,8 @@ Ikomia Studio offers a friendly UI with the same features as the API.
 
 ## :pencil: Set algorithm parameters
 - **model_name** (str) - default 'yolov9-c': Model architecture to be trained. Should be one of :
-    - ~~yolov9-s~~
-    - ~~yolov9-m~~
+    - yolov9-s
+    - yolov9-m
     - yolov9-c
     - yolov9-e
 - **train_imgsz** (int) - default '640': Size of the training image.

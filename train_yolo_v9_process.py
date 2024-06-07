@@ -93,8 +93,8 @@ class TrainYoloV9(dnntrain.TrainProcess):
         else:
             self.set_param_object(copy.deepcopy(param))
 
-        self.enable_mlflow(True)
-        self.enable_tensorboard(True)
+        self.enable_mlflow(False)
+        self.enable_tensorboard(False)
         self.device = None
         self.opt = None
 
@@ -378,7 +378,7 @@ class TrainYoloV9Factory(dataprocess.CTaskFactory):
         self.info.short_description = "Train YOLOv9 models"
         # relative path -> as displayed in Ikomia Studio algorithm tree
         self.info.path = "Plugins/Python/Detection"
-        self.info.version = "1.0.0"
+        self.info.version = "1.1.0"
         self.info.icon_path = "images/icon.png"
         self.info.authors = "Wang, Chien-Yao  and Liao, Hong-Yuan Mark"
         self.info.article = "YOLOv9: Learning What You Want to Learn Using Programmable Gradient Information"
