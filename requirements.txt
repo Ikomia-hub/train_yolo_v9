@@ -1,13 +1,10 @@
 # Usage: pip install -r requirements.txt
---find-links https://download.pytorch.org/whl/torch_stable.html
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch>=2.6.0, <2.8.0
+torchvision>=0.21.0, <0.23.0
 
-# Base ----------------------------------------
-torch==1.13.1+cu116; python_version >= "3.10"
-torchvision==0.14.1+cu116; python_version >= "3.10"
-torch==1.9.0+cu111; python_version < "3.10"
-torchvision==0.10.0+cu111; python_version < "3.10"
 scipy>=1.4.1
-Pillow==9.5.0
+pillow>=11.0.0, <12.0.0
 
 # Plotting ------------------------------------
 pandas>=1.1.4
@@ -20,7 +17,3 @@ thop>=0.1.1  # FLOPs computation
 
 albumentations==1.0.3
 pycocotools>=2.0
-
-
-
-  
