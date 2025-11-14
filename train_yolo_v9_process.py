@@ -1,7 +1,4 @@
-from ikomia import utils, core, dataprocess
 import copy
-from ikomia.core.task import TaskParam
-from ikomia.dnn import dnntrain
 import sys
 import argparse
 import os
@@ -13,10 +10,14 @@ from datetime import datetime
 from pathlib import Path
 import shutil
 import yaml
+
 import numpy as np
 import torch
 import torch.distributed as dist
-from train_yolo_v9.ikutils import prepare_dataset, download_model
+
+from ikomia import utils, core, dataprocess
+from ikomia.core.task import TaskParam
+from ikomia.dnn import dnntrain
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLO root directory
@@ -26,9 +27,12 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 from train_yolo_v9.yolov9.utils.callbacks import Callbacks
 from train_yolo_v9.yolov9.utils.downloads import  is_url
-from train_yolo_v9.yolov9.utils.general import (LOGGER, check_file, check_yaml, colorstr,
-                           get_latest_run, increment_path, print_args, print_mutation)
+from train_yolo_v9.yolov9.utils.general import (
+    LOGGER, check_file, check_yaml, colorstr,
+    get_latest_run, increment_path, print_args, print_mutation
+)
 
+from train_yolo_v9.ikutils import prepare_dataset, download_model
 from train_yolo_v9.yolov9.utils.loggers.comet.comet_utils import check_comet_resume
 from train_yolo_v9.yolov9.utils.metrics import fitness
 from train_yolo_v9.yolov9.utils.plots import plot_evolve
@@ -38,7 +42,7 @@ from train_yolo_v9.yolov9.train_dual import train
 LOCAL_RANK = int(os.getenv('LOCAL_RANK', -1))  # https://pytorch.org/docs/stable/elastic/run.html
 RANK = int(os.getenv('RANK', -1))
 WORLD_SIZE = int(os.getenv('WORLD_SIZE', 1))
-GIT_INFO = None#check_git_info()
+GIT_INFO = None #check_git_info()
 
 
 # --------------------
@@ -85,7 +89,6 @@ class TrainYoloV9(dnntrain.TrainProcess):
 
     def __init__(self, name, param):
         dnntrain.TrainProcess.__init__(self, name, param)
-
 
         # Create parameters object
         if param is None:
@@ -134,6 +137,7 @@ class TrainYoloV9(dnntrain.TrainProcess):
 
         if len(sys.argv) == 0:
                 sys.argv = ["ikomia"]
+
         parser = argparse.ArgumentParser()
         # parser.add_argument('--weights', type=str, default=ROOT / 'yolo.pt', help='initial weights path')
         # parser.add_argument('--cfg', type=str, default='', help='model.yaml path')
@@ -378,7 +382,7 @@ class TrainYoloV9Factory(dataprocess.CTaskFactory):
         self.info.short_description = "Train YOLOv9 models"
         # relative path -> as displayed in Ikomia Studio algorithm tree
         self.info.path = "Plugins/Python/Detection"
-        self.info.version = "1.1.0"
+        self.info.version = "1.2.0"
         self.info.icon_path = "images/icon.png"
         self.info.authors = "Wang, Chien-Yao  and Liao, Hong-Yuan Mark"
         self.info.article = "YOLOv9: Learning What You Want to Learn Using Programmable Gradient Information"
@@ -394,6 +398,11 @@ class TrainYoloV9Factory(dataprocess.CTaskFactory):
         self.info.keywords = "YOLO, object, detection, real-time, Pytorch"
         self.info.algo_type = core.AlgoType.TRAIN
         self.info.algo_tasks = "OBJECT_DETECTION"
+        # Min hardware config
+        self.info.hardware_config.min_cpu = 4
+        self.info.hardware_config.min_ram = 16
+        self.info.hardware_config.gpu_required = True
+        self.info.hardware_config.min_vram = 16
 
     def create(self, param=None):
         # Create algorithm object
@@ -401,6 +410,6 @@ class TrainYoloV9Factory(dataprocess.CTaskFactory):
 
 
 if __name__ == '__main__':
-    param = TrainYoloV9Param()
-    train_yolo_v9_process = TrainYoloV9("train_yolo_v9", param)
+    yolo_param = TrainYoloV9Param()
+    train_yolo_v9_process = TrainYoloV9("train_yolo_v9", yolo_param)
     train_yolo_v9_process.run()

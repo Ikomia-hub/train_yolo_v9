@@ -22,7 +22,7 @@
 
 Train on YOLOv9 object detection models.
 
-![London street object detection](https://raw.githubusercontent.com/Ikomia-hub/infer_yolo_v9/main/images/output.jpg)
+![London street object detection](https://raw.githubusercontent.com/Ikomia-hub/train_yolo_v9/main/images/output.jpg)
 
 ## :rocket: Use with Ikomia API
 
