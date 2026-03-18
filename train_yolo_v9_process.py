@@ -39,6 +39,7 @@ from train_yolo_v9.yolov9.utils.plots import plot_evolve
 from train_yolo_v9.yolov9.utils.torch_utils import  select_device
 from train_yolo_v9.yolov9.train_dual import train
 
+
 LOCAL_RANK = int(os.getenv('LOCAL_RANK', -1))  # https://pytorch.org/docs/stable/elastic/run.html
 RANK = int(os.getenv('RANK', -1))
 WORLD_SIZE = int(os.getenv('WORLD_SIZE', 1))
@@ -382,7 +383,8 @@ class TrainYoloV9Factory(dataprocess.CTaskFactory):
         self.info.short_description = "Train YOLOv9 models"
         # relative path -> as displayed in Ikomia Studio algorithm tree
         self.info.path = "Plugins/Python/Detection"
-        self.info.version = "1.2.1"
+        self.info.version = "1.3.0"
+        self.info.min_ikomia_version = "0.16.0"
         self.info.icon_path = "images/icon.png"
         self.info.authors = "Wang, Chien-Yao  and Liao, Hong-Yuan Mark"
         self.info.article = "YOLOv9: Learning What You Want to Learn Using Programmable Gradient Information"

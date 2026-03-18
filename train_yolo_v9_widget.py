@@ -1,9 +1,10 @@
+# PyQt GUI framework
+from PyQt6.QtWidgets import *
+
 from ikomia import core, dataprocess
 from ikomia.utils import pyqtutils, qtconversion
-from train_yolo_v9.train_yolo_v9_process import TrainYoloV9Param
 
-# PyQt GUI framework
-from PyQt5.QtWidgets import *
+from train_yolo_v9.train_yolo_v9_process import TrainYoloV9Param
 from train_yolo_v9.ikutils import model_zoo
 
 # --------------------
@@ -27,7 +28,7 @@ class TrainYoloV9Widget(core.CWorkflowTaskWidget):
         self.browse_dataset_folder = pyqtutils.append_browse_file(self.grid_layout, label="Dataset folder",
                                                                   path=self.parameters.cfg["dataset_folder"],
                                                                   tooltip="Select folder",
-                                                                  mode=QFileDialog.Directory)
+                                                                  mode=QFileDialog.FileMode.Directory)
 
         # Model name
         self.combo_model_name = pyqtutils.append_combo(self.grid_layout, "Model name")
@@ -58,7 +59,7 @@ class TrainYoloV9Widget(core.CWorkflowTaskWidget):
         self.label_hyp = QLabel("Hyper-parameters file")
         self.browse_hyp_file = pyqtutils.BrowseFileWidget(path=self.parameters.cfg["config_file"],
                                                           tooltip="Select file",
-                                                          mode=QFileDialog.ExistingFile)
+                                                          mode=QFileDialog.FileMode.ExistingFile)
 
         row = self.grid_layout.rowCount()
         self.grid_layout.addWidget(self.label_hyp, row, 0)
@@ -68,14 +69,18 @@ class TrainYoloV9Widget(core.CWorkflowTaskWidget):
         self.browse_hyp_file.setVisible(custom_hyp)
 
         # Model weight file
-        self.browse_model_weight_file = pyqtutils.append_browse_file(self.grid_layout, label="Model weight file",
-                                                                     path=self.parameters.cfg["model_weight_file"],
-                                                                     tooltip="Select file", mode=QFileDialog.ExistingFile)
+        self.browse_model_weight_file = pyqtutils.append_browse_file(
+            self.grid_layout,
+            label="Model weight file",
+            path=self.parameters.cfg["model_weight_file"],
+            tooltip="Select file",
+            mode=QFileDialog.FileMode.ExistingFile
+        )
         # Output folder
         self.browse_out_folder = pyqtutils.append_browse_file(self.grid_layout, label="Output folder",
                                                               path=self.parameters.cfg["output_folder"],
                                                               tooltip="Select folder",
-                                                              mode=QFileDialog.Directory)
+                                                              mode=QFileDialog.FileMode.Directory)
 
         # PyQt -> Qt wrapping
         layout_ptr = qtconversion.PyQtToQt(self.grid_layout)
